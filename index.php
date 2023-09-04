@@ -1,3 +1,17 @@
+<?php
+// コードベースのファイルのオートロード
+spl_autoload_extensions(".php"); 
+spl_autoload_register();
+
+// composerの依存関係のオートロード
+require_once 'vendor/autoload.php';
+
+use Helpers\RandomGenerator;
+
+// RestaurantChainの生成
+$test = RandomGenerator::restaurantChain();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

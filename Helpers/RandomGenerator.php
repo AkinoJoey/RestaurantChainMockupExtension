@@ -74,7 +74,7 @@ class RandomGenerator {
             $faker->city(),
             $faker->state(),
             $faker->postcode(),
-            self::createObjects(20, 100, 'self::employee'),
+            RandomGenerator::createObjects(20, 100, 'RandomGenerator::employee()'),
             $faker->boolean(),
             $faker->boolean()
         );
@@ -96,7 +96,7 @@ class RandomGenerator {
             $faker->name(),
             $faker->numberBetween(200, 2000000),
             $faker->randomNumber(),
-            self::createObjects(1,20,'self::restaurantLocation'),
+            RandomGenerator::createObjects(1,20,'RandomGenerator::restaurantLocation()'),
             $faker->word(),
             $faker->numberBetween(1,100),
             $faker->company()
@@ -109,10 +109,23 @@ class RandomGenerator {
         $numOfObjects = $faker->numberBetween($min, $max);
 
         for ($i = 0; $i < $numOfObjects; $i++) {
-            $objects[] = self::$callback();
+            $objects[] = $callback;
         }
 
         return $objects;
     }
+
+    // public static function createObjects(int $min, int $max): array {
+    //     $faker = Factory::create();
+    //     $objects = [];
+    //     $numOfObjects = $faker->numberBetween($min, $max);
+    //     $callback = RandomGenerator::employee();
+
+    //     for ($i = 0; $i < $numOfObjects; $i++) {
+    //         $objects[] = $callback;
+    //     }
+
+    //     return $objects;
+    // }
 }
 ?>

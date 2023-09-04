@@ -1,7 +1,6 @@
 <?php
 
-use RestaurantLocations;
-
+namespace RestaurantLocations;
 
 class RestaurantLocation{
     private string $name;
@@ -31,5 +30,16 @@ class RestaurantLocation{
         $this->employees = $employees;
         $this->isOpen = $isOpen;
         $this->hasDriveThru = $hasDriveThru;
+    }
+
+    public function returnDetail() : string {
+        return sprintf("Name: %s, Address: %s, City: %s, State: %s, Zip Code: %s, %s",
+        $this->name,
+        $this->address,
+        $this->city,
+        $this->state,
+        $this->zipCode,
+        $this->isOpen ? "We're Open" : "We're closed"
+    );
     }
 }

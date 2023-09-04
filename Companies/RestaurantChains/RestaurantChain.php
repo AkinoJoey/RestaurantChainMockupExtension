@@ -3,6 +3,7 @@
 namespace Companies\RestaurantChains;
 
 use Companies\Company;
+use RestaurantLocation;
 
 class RestaurantChain extends Company{
     private int $chainId;
@@ -23,5 +24,13 @@ class RestaurantChain extends Company{
         $this->cuisineType = $cuisineType;
         $this->numberOfLocations = $numberOfLocations;
         $this->parentCompany = $parentCompany;
+    }
+
+    public function addRestaurantLocation(RestaurantLocation $restaurantLocation) : void {
+        array_push($this->restaurantLocations, $restaurantLocation);
+    }
+
+    public function displayAllRestaurantLocations() : string {
+        return implode(", ",$this->restaurantLocations);
     }
 }

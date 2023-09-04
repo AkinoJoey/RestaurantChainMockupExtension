@@ -34,4 +34,17 @@ class Company{
         $this->founder = $founder;
         $this->totalEmployees = $totalEmployees;
     }
+
+    public function returnCompanyDetail(): string{
+        return sprintf("Company Name: %s, Founding Year: %d, Description: %s, Website: %s, Phone: %d, Industry: %s, CEO: %s, Publicly Traded: %s",
+        $this->name,
+        $this->foundingYear,
+        $this->description,
+        $this->website,
+        $this->phone,
+        $this->industry,
+        $this->ceo,
+        $this->isPubliclyTraded ? "Yes" : "No"
+    );
+    }
 }

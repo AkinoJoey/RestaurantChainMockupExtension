@@ -3,7 +3,7 @@
 namespace Companies\RestaurantChains;
 
 use Companies\Company;
-use RestaurantLocation;
+use RestaurantLocations\RestaurantLocation;
 
 class RestaurantChain extends Company{
     private int $chainId;

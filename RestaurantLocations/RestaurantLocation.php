@@ -2,7 +2,9 @@
 
 namespace RestaurantLocations;
 
-class RestaurantLocation {
+use Interfaces\FileConvertible;
+
+class RestaurantLocation implements FileConvertible{
     private string $name;
     private string $address;
     private string $city;
@@ -30,17 +32,6 @@ class RestaurantLocation {
         $this->employees = $employees;
         $this->isOpen = $isOpen;
         $this->hasDriveThru = $hasDriveThru;
-    }
-
-    public function returnDetail() : string {
-        return sprintf("Name: %s, Address: %s, City: %s, State: %s, Zip Code: %s, %s",
-        $this->name,
-        $this->address,
-        $this->city,
-        $this->state,
-        $this->zipCode,
-        $this->isOpen ? "We're Open" : "We're closed"
-    );
     }
 
     public function createAllEmployeesHtml() : string {
@@ -73,6 +64,16 @@ class RestaurantLocation {
         return $this->zipCode;
     }
 
+    public function toString() : string {
+        return sprintf("Name: %s, Address: %s, City: %s, State: %s, Zip Code: %s, %s",
+        $this->name,
+        $this->address,
+        $this->city,
+        $this->state,
+        $this->zipCode,
+        $this->isOpen ? "We're Open" : "We're closed");
+    }
+
     public function toHtml(): string{
         return sprintf('
             <div>
@@ -84,5 +85,26 @@ class RestaurantLocation {
         ',
         $this->createAllEmployeesHtml()
     );
+    }
+
+    public function toMarkdown() : string {
+        $openNow = $this->isOpen ? "We're Open" : "We're closed";
+        return "## Name: {$this->name}
+                - Address: {$this->address}
+                - City: {$this->city}
+                - State: {$this->state}
+                - ZipCode: {$this->zipCode}
+                - Open: {$openNow}";
+    }
+
+    public function toArray() : array {
+        return [
+            'name' => $this->name,
+            'address' => $this->address,
+            'city' => $this->city,
+            'state' => $this->state,
+            'zipCode' => $this->zipCode,
+            'isOpen' =>$this->isOpen
+        ];
     }
 }

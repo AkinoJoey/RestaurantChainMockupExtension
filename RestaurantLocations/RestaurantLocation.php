@@ -2,7 +2,7 @@
 
 namespace RestaurantLocations;
 
-class RestaurantLocation{
+class RestaurantLocation {
     private string $name;
     private string $address;
     private string $city;
@@ -40,6 +40,49 @@ class RestaurantLocation{
         $this->state,
         $this->zipCode,
         $this->isOpen ? "We're Open" : "We're closed"
+    );
+    }
+
+    public function createAllEmployeesHtml() : string {
+        $html = "";
+        for($i = 0; $i < count($this->employees); $i++){
+            $employee = $this->employees[$i];
+            $html .= $employee->toHtml();
+        }
+
+        return $html;
+    }
+
+    public function getName() : string {
+        return $this->name;
+    }
+
+    public function getAddress() : string {
+        return $this->address;
+    }
+
+    public function getCity() : string {
+        return $this->city;
+    }
+
+    public function getState() : string {
+        return $this->state;
+    }
+
+    public function getZipCode() : string {
+        return $this->zipCode;
+    }
+
+    public function toHtml(): string{
+        return sprintf('
+            <div>
+                <h4>Employees:</h4>
+                <ul>
+                    %s
+                </ul>
+            </div>
+        ',
+        $this->createAllEmployeesHtml()
     );
     }
 }

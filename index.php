@@ -9,7 +9,7 @@ require_once 'vendor/autoload.php';
 use Helpers\RandomGenerator;
 
 // RestaurantChainの生成
-$test = RandomGenerator::restaurantChain();
+$restaurantChain = RandomGenerator::createObjects(2,5,'Helpers\RandomGenerator::restaurantChain');
 ?>
 
 <!DOCTYPE html>

@@ -67,14 +67,13 @@ class RandomGenerator {
 
     public static function restaurantLocation() : RestaurantLocation {
         $faker = Factory::create();
-
         return new RestaurantLocation(
             $faker->streetName(),
             $faker->streetAddress(),
             $faker->city(),
             $faker->state(),
             $faker->postcode(),
-            RandomGenerator::createObjects(20, 100, 'RandomGenerator::employee()'),
+            RandomGenerator::createObjects(2, 5, 'Helpers\RandomGenerator::employee'),
             $faker->boolean(),
             $faker->boolean()
         );
@@ -82,7 +81,6 @@ class RandomGenerator {
 
     public static function restaurantChain() : RestaurantChain {
         $faker = Factory::create();
-
         return new RestaurantChain(
             $faker->company(),
             $faker->numberBetween(1960, 2023),
@@ -96,7 +94,7 @@ class RandomGenerator {
             $faker->name(),
             $faker->numberBetween(200, 2000000),
             $faker->randomNumber(),
-            RandomGenerator::createObjects(1,20,'RandomGenerator::restaurantLocation()'),
+            RandomGenerator::createObjects(2,5,'Helpers\RandomGenerator::restaurantLocation'),
             $faker->word(),
             $faker->numberBetween(1,100),
             $faker->company()
@@ -109,23 +107,10 @@ class RandomGenerator {
         $numOfObjects = $faker->numberBetween($min, $max);
 
         for ($i = 0; $i < $numOfObjects; $i++) {
-            $objects[] = $callback;
+            $objects[] = call_user_func($callback);
         }
 
         return $objects;
     }
-
-    // public static function createObjects(int $min, int $max): array {
-    //     $faker = Factory::create();
-    //     $objects = [];
-    //     $numOfObjects = $faker->numberBetween($min, $max);
-    //     $callback = RandomGenerator::employee();
-
-    //     for ($i = 0; $i < $numOfObjects; $i++) {
-    //         $objects[] = $callback;
-    //     }
-
-    //     return $objects;
-    // }
 }
 ?>

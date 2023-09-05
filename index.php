@@ -8,8 +8,8 @@ require_once 'vendor/autoload.php';
 
 use Helpers\RandomGenerator;
 
-// RestaurantChainの生成
-$restaurantChain = RandomGenerator::createObjects(2,5,'Helpers\RandomGenerator::restaurantChain');
+// RestaurantChainsの生成
+$restaurantChains = RandomGenerator::createObjects(2,5,'Helpers\RandomGenerator::restaurantChain');
 ?>
 
 <!DOCTYPE html>
@@ -22,24 +22,9 @@ $restaurantChain = RandomGenerator::createObjects(2,5,'Helpers\RandomGenerator::
 </head>
 <body>
     <main class="container">
-        <article>
-            <header>Restaurant Chain Name</header>
-            <details>
-                <summary role="button" class="secondary">Local Name1</summary>
-                <p>Company information</p>
-                <div>
-                    <h4>Employees:</h4>
-                    <ul>
-                        <li>user1</li>
-                        <li>user2</li>
-                    </ul>
-                </div>
-            </details>
-            <details>
-                <summary role="button" class="secondary">Local Name2</summary>
-                <p>Company information</p>
-            </details>
-        </article>
+        <?php foreach($restaurantChains as $restaurantChain): ?>
+            <?php echo $restaurantChain->toHTML() ?>
+        <?php endforeach ?>
     </main>
 </body>
 </html>

@@ -1,17 +1,3 @@
-<?php
-// コードベースのファイルのオートロード
-spl_autoload_extensions(".php"); 
-spl_autoload_register();
-
-// composerの依存関係のオートロード
-require_once 'vendor/autoload.php';
-
-use Helpers\RandomGenerator;
-
-// RestaurantChainsの生成
-// $restaurantChains = RandomGenerator::createObjects(2,5,'Helpers\RandomGenerator::restaurantChain');
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,9 +41,3 @@ use Helpers\RandomGenerator;
     </main>
 </body>
 </html>
-
-<!-- •	チェーンが持つ従業員の数を選択
-•	従業員の給与範囲を選択
-•	場所の数を入力
-•	場所の郵便番号の範囲を設定
-•	生成したいファイルのタイプを選択: HTML、JSON、TXT、または MarkDown。 -->

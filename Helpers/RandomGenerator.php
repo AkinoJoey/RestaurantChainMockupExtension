@@ -26,7 +26,7 @@ class RandomGenerator {
             $faker->randomElement(['admin', 'user', 'editor'])
         );
     }
-    public static function employee(): Employee {
+    public static function employee(int $minSalary = 20, int $maxSalary = 50): Employee {
         $faker = Factory::create();
 
         return new Employee(
@@ -41,7 +41,7 @@ class RandomGenerator {
             $faker->dateTimeBetween('-10 years', '+20 years'),
             $faker->randomElement(['admin', 'user', 'editor']),
             $faker->jobTitle(),
-            $faker->numberBetween(20, 50),
+            $faker->numberBetween($minSalary, $maxSalary),
             $faker->dateTime(),
             $faker->words()
         );
@@ -65,22 +65,34 @@ class RandomGenerator {
         );
     }
 
-    public static function restaurantLocation() : RestaurantLocation {
+    public static function restaurantLocation(int $startZipCode = null, int $endZipCode = null, array $employees = null) : RestaurantLocation {
         $faker = Factory::create();
+
+        if(is_null($startZipCode) || is_null($endZipCode)){
+            $zipCode = $faker->postcode();
+        }else{
+            $randomNumber = mt_rand($startZipCode, $endZipCode);
+            $zipCode = str_pad($randomNumber, 5, '0', STR_PAD_LEFT);
+        }
+
+        $employees = $employees ?? RandomGenerator::createObjects(2, 5, 'Helpers\RandomGenerator::employee');
+
         return new RestaurantLocation(
             $faker->streetName(),
             $faker->streetAddress(),
             $faker->city(),
             $faker->state(),
-            $faker->postcode(),
-            RandomGenerator::createObjects(2, 5, 'Helpers\RandomGenerator::employee'),
+            $zipCode,
+            $employees,
             $faker->boolean(),
             $faker->boolean()
         );
     }
 
-    public static function restaurantChain() : RestaurantChain {
+    public static function restaurantChain(array $restaurantLocations) : RestaurantChain {
         $faker = Factory::create();
+
+        $restaurantLocations = $restaurantLocations ?? RandomGenerator::createObjects(2,5,'Helpers\RandomGenerator::restaurantLocation');
         return new RestaurantChain(
             $faker->company(),
             $faker->numberBetween(1960, 2023),
@@ -94,9 +106,8 @@ class RandomGenerator {
             $faker->name(),
             $faker->numberBetween(200, 2000000),
             $faker->randomNumber(),
-            RandomGenerator::createObjects(2,5,'Helpers\RandomGenerator::restaurantLocation'),
+            $restaurantLocations,
             $faker->word(),
-            $faker->numberBetween(1,100),
             $faker->company()
         );
     }
@@ -112,5 +123,42 @@ class RandomGenerator {
 
         return $objects;
     }
+
+
+    public static function createEmployees(int $numberOfEmployees, int $minSalary, int $maxSalary) : array {
+        $employees = [];
+
+        for($i = 0; $i < $numberOfEmployees; $i++){
+            $employees[] = RandomGenerator::employee($minSalary, $maxSalary);
+        }
+
+        return $employees;
+    }
+
+    public static function generateRestaurantLocations(int $min , int $max, int $numberOfEmployees, int $minSalary, int $maxSalary, int $startZipCode, int $endZipCode) : array {
+        $faker = Factory::create();
+        $restaurantLocations = [];
+        $numOfObjects = $faker->numberBetween($min, $max);
+
+        for ($i = 0; $i < $numOfObjects; $i++) {
+            $employees = self::createEmployees($numberOfEmployees, $minSalary, $maxSalary);
+            $restaurantLocations[] = self::restaurantLocation($startZipCode, $endZipCode, $employees);
+        }
+
+        return $restaurantLocations;
+    }
+
+    public static function makeRestaurantChains(int $min , int $max, int $numberOfEmployees, int $minSalary, int $maxSalary, int $startZipCode, int $endZipCode): array{
+        $faker = Factory::create();
+        $restaurantChains = [];
+        $numOfObjects = $faker->numberBetween($min, $max);
+
+        for ($i = 0; $i < $numOfObjects; $i++) {
+            $restaurantLocations = self::generateRestaurantLocations($min, $max, $numberOfEmployees, $minSalary, $maxSalary, $startZipCode, $endZipCode);
+            $restaurantChains[] = self::restaurantChain($restaurantLocations);
+        }
+        return $restaurantChains;
+    }
+
 }
 ?>

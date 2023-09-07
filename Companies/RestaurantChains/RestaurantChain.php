@@ -17,8 +17,7 @@ class RestaurantChain extends Company implements FileConvertible{
         string $name, int $foundingYear, string $description,string $website,
         string $phone,string $industry, string $ceo,bool $isPubliclyTraded,
         string $country,string $founder,int $totalEmployees,int $chainId,
-        array $restaurantLocations, string $cuisineType, int $numberOfLocations,
-        string $parentCompany
+        array $restaurantLocations, string $cuisineType, string $parentCompany
     ) {
         parent::__construct($name, $foundingYear, $description, $website, $phone,
         $industry, $ceo, $isPubliclyTraded, $country, $founder, $totalEmployees);
@@ -26,7 +25,7 @@ class RestaurantChain extends Company implements FileConvertible{
         $this->chainId = $chainId;
         $this->restaurantLocations = $restaurantLocations;
         $this->cuisineType = $cuisineType;
-        $this->numberOfLocations = $numberOfLocations;
+        $this->numberOfLocations = count($restaurantLocations);
         $this->parentCompany = $parentCompany;
     }
 
@@ -35,14 +34,14 @@ class RestaurantChain extends Company implements FileConvertible{
     }
 
     public function displayAllRestaurantLocations() : string {
-        $allRestaurantLocations = "";
+        $allRestaurantLocations = [];
 
         for($i = 0; $i < count($this->restaurantLocations); $i++){
             $location = $this->restaurantLocations[$i];
-            $allRestaurantLocations .= $location->getName() . "\n";
+            $allRestaurantLocations[] = $location->getName();
         }
 
-        return $allRestaurantLocations;
+        return implode(", " , $allRestaurantLocations);
     }
 
     public function createAllLocationsHtml() : string {
@@ -67,8 +66,12 @@ class RestaurantChain extends Company implements FileConvertible{
     }
 
     public function toString() : string {
-        return sprintf("Chain ID: %d, Restaurant Locations: %s, Cuisine Type: %s,
-        Number Of Locations: %d, Parent Company: %s",
+        return sprintf("
+        Chain ID: %d
+        Restaurant Locations: %s 
+        Cuisine Type: %s
+        Number Of Locations: %d
+        Parent Company: %s" . "\n",
         $this->chainId,
         $this->displayAllRestaurantLocations(),
         $this->cuisineType,
@@ -100,7 +103,7 @@ class RestaurantChain extends Company implements FileConvertible{
     public function toArray() : array {
         return [
             'chainId' => $this->chainId,
-            'restaurantLocations' => $this->restaurantLocations,
+            'restaurantLocations' => $this->displayAllRestaurantLocations(),
             'cuisineType' => $this->cuisineType,
             'numberOfLocations' => $this->numberOfLocations,
             'parentCompany' => $this->parentCompany

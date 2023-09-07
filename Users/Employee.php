@@ -46,21 +46,23 @@ class Employee extends User implements FileConvertible{
     }
 
     public function toString() : string {
-        return sprintf("ID: %d, Job Title: %s, %s %s, Start Date: %s",
+        return sprintf("ID: %d, Job Title: %s, %s %s, Salary: %d ,Start Date: %s",
         $this->id,
         $this->jobTitle,
         $this->firstName,
         $this->lastName,
+        $this->salary,
         $this->startDate->format('Y-m-d')
         );
     }
 
     public function toHTML() : string {
-        return sprintf("<li>ID: %d, Job Title: %s, %s %s, Start Date: %s</li>",
+        return sprintf("<li>ID: %d, Job Title: %s, %s %s, Salary: %d ,Start Date: %s</li>",
         $this->id,
         $this->jobTitle,
         $this->firstName,
         $this->lastName,
+        $this->salary,
         $this->startDate->format('Y-m-d')
         );
     }
@@ -69,6 +71,7 @@ class Employee extends User implements FileConvertible{
         return "## ID: {$this->id}
                 - Job Title: {$this->jobTitle}
                 - Name: {$this->firstName} {$this->lastName}
+                - Salary: {$this->salary}
                 - Start Date: {$this->startDate}";
     }
 
@@ -78,6 +81,7 @@ class Employee extends User implements FileConvertible{
             'jobTitle' => ${$this->jobTitle},
             'firstName' => ${$this->firstName},
             'lastName' => ${$this->lastName},
+            'Salary' => ${$this->salary},
             'startDate' => ${$this->startDate}
         ];
     }

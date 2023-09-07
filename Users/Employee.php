@@ -68,7 +68,7 @@ class Employee extends User implements FileConvertible{
     }
 
     public function toMarkdown(): string{
-        return "## ID: {$this->id}
+        return "## ID: {$this->id}git
                 - Job Title: {$this->jobTitle}
                 - Name: {$this->firstName} {$this->lastName}
                 - Salary: {$this->salary}
